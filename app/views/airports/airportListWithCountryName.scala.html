@@ -1,0 +1,27 @@
+<div ng-show=1>
+   <table class="table table-hover">
+       <thead>
+       <th>Id</th>
+       <th>Ident</th>
+       <th>Type</th>
+       <th>name</th>
+       <th>Country</th>
+       </thead>
+       <tbody>
+       <tr dir-paginate="air in airportsWithCountryName | filter: searchAirport | itemsPerPage:10">
+      <!-- <tr ng-repeat="air in airports | filter: searchAirport"> -->
+           <td>{{air.id}}</td>
+           <td>{{air.ident}}</td>
+           <td>{{air.type_}}</td>
+           <td>{{air.name}}</td>
+           <td>{{air.countryName}}</td>
+       </tr>
+       </tbody>
+   </table>
+    <dir-pagination-controls
+            max-size="10"
+            direction-links="true"
+            boundary-links="true" >
+    </dir-pagination-controls>
+
+</div>

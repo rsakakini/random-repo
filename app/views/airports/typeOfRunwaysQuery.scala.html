@@ -1,0 +1,23 @@
+<h3>Type of Runways</h3>
+<table class="table table-hover">
+    <thead>
+    <th>Country</th>
+    <th>Surface</th>
+    </thead>
+    <tbody>
+    <tr dir-paginate="air in typeOfRunways | itemsPerPage:10" pagination-id="runways">
+    <!-- tr ng-repeat="air in typeOfRunways" -->
+        <td>{{air.iso_country}}</td>
+        <td>{{air.surface}}</td>
+    </tr>
+    </tbody>
+
+</table>
+<dir-pagination-controls pagination-id="runways"
+                         max-size="10"
+                         direction-links="true"
+                         boundary-links="true" >
+</dir-pagination-controls>
+
+
+

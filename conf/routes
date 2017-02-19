@@ -1,0 +1,28 @@
+
+# Home page
+GET     /                                   controllers.Application.index
+
+# Airport related routes
+
+GET     /airport/list                       controllers.AirportController.listAirport
+
+GET     /airport/airportWithCountryName     controllers.AirportController.listAirportWithCountryName
+
+GET     /airport/query/countries            controllers.AirportController.maxNumberAirport
+
+GET     /airport/query/typeRunways          controllers.AirportController.typeOfRunways
+
+GET     /airport/query/queries              controllers.AirportController.queries
+
+GET     /airport/query/queries/runways      controllers.AirportController.runwaysquery
+
+GET     /airport/query/queries/countries    controllers.AirportController.countriesquery
+
+GET     /airport/query/search               controllers.AirportController.search
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
+
+# WebJars
+GET     /webjars/*file                      controllers.WebJarAssets.at(file)
+

@@ -1,0 +1,38 @@
+@(webJarAssets: WebJarAssets)
+
+@main("Play Angular App")(webJarAssets) {
+
+<div ng-controller="airportsCtrl">
+
+    <div>
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <a id="back" ng-href="/{{''}}">Home</a> <br />
+        </div>
+        <div class="row emp-header">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <input class="form-control" style="width: 70%;" type="text" ng-model="searchAirport" placeholder="Search Airport ..."/>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Plugin Javascript -->
+    <script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("jquery.min.js"))'></script>
+    <script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("js/bootstrap.min.js"))'></script>
+    <script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("angular.min.js"))'></script>
+    <script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("ui-bootstrap-tpls.min.js"))'></script>
+    <script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("angular-animate.min.js"))'></script>
+    <!-- #Custom Javascripts Links -->
+    <script type="text/javascript" src='@routes.Assets.versioned("javascripts/app.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.versioned("javascripts/dirPagination.js")'></script>
+
+
+
+
+
+    @views.html.airports.airportListWithCountryName()
+
+
+</div>
+}
+

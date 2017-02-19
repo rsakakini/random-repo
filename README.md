@@ -1,3 +1,12 @@
-# random-repo
+#Airport
 
-Airports data from http://ourairports.com/data/ (released under public domain)
+make sure the *.csv are in the /misc/resources/ directory
+
+sbt run test
+
+sbt run
+
+
+
+
+

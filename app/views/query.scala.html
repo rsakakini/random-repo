@@ -1,0 +1,35 @@
+@(webJarAssets: WebJarAssets)
+
+@main("Play Angular App")(webJarAssets) {
+
+<!-- Plugin Javascript -->
+<script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("jquery.min.js"))'></script>
+<script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("js/bootstrap.min.js"))'></script>
+<script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("angular.min.js"))'></script>
+<script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("ui-bootstrap-tpls.min.js"))'></script>
+<script type="text/javascript" src='@routes.WebJarAssets.at(webJarAssets.locate("angular-animate.min.js"))'></script>
+<!-- #Custom Javascripts Links -->
+<script type="text/javascript" src='@routes.Assets.versioned("javascripts/app.js")'></script>
+<script type="text/javascript" src='@routes.Assets.versioned("javascripts/dirPagination.js")'></script>
+
+
+
+<div ng-controller="airportsCtrl">
+
+    <div>
+        <div class="row emp-header">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <a id="back" ng-href="/{{''}}">Home</a> <br />
+            </div>
+
+        </div>
+    </div>
+    <hr>
+
+    @views.html.airports.countriesQuery()
+
+    @views.html.airports.typeOfRunwaysQuery()
+
+</div>
+}
+
