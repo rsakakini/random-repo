@@ -65,7 +65,7 @@ class AirportController @Inject()(fileLoader: FileLoader,webJarAssets: WebJarAss
 
   def typeOfRunways: Action[AnyContent] = Action.async {
     fileLoader.typeOfRunways.map { res =>
-      logger.info("Airport list: " + res)
+    //  logger.info("Airport list: " + res)
       Ok(successResponse(Json.toJson(res), ""))
     }
 

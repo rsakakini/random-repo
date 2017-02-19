@@ -20,27 +20,12 @@ import scala.collection.immutable.{Seq, Iterable, ListMap}
 class FileLoader @Inject()(protected val config: Configuration) {
 
   val logger = Logger(this.getClass())
-  logger.info(s"ApplicationTimer demo: Starting application .....")
-
-  /*
-
-  case class Airport(id: String, ident: String, type_ : String, name: String, iso_country: String, local_code: String)
-
-case class RunWays(id: String, airport_ref: String, airport_ident : String, surface: String, le_ident: String)
-
-case class Countries(id: String, code: String, name : String, continent: String)
-
-case class RunWaysPerCountry(iso_country: String, surface: Set[String])
-
-   */
-
-
-
+  logger.info("Airports Starting.........")
 
   val getAirportsFile : List[Airport] = {
     val airports: String = config.underlying.getString("files.airports")
 
-    logger.info(s"airports Starting application at $airports.")
+    logger.info("airports.....")
 
     val airportsBufferedSource = Source.fromFile(airports,"ISO-8859-1") //Play.application().resourceAsStream(airports,"ISO-8859-1")//
 
@@ -59,7 +44,7 @@ case class RunWaysPerCountry(iso_country: String, surface: Set[String])
 
     val countries: String = config.underlying.getString("files.countries")
 
-    logger.info(s"countries Starting application at $countries.")
+    logger.info("countries.....")
 
     var countriesBufferedSource = Source.fromFile(countries,"ISO-8859-1")  //Source.fromInputStream(Play.application().resourceAsStream(countries),"ISO-8859-1")
 
@@ -78,7 +63,7 @@ case class RunWaysPerCountry(iso_country: String, surface: Set[String])
 
     val runways: String = config.underlying.getString("files.runways")
 
-    logger.info(s"runways: Starting application at $runways.")
+    logger.info("runways..........")
     val runwaysBufferedSource = Source.fromFile(runways,"ISO-8859-1")  //Source.fromInputStream(Play.application().resourceAsStream(runways),"ISO-8859-1")
 
     val runwaysIt = runwaysBufferedSource.getLines.map { line =>
@@ -104,7 +89,7 @@ case class RunWaysPerCountry(iso_country: String, surface: Set[String])
     getRunwaysFile
   })
 
-  val maxNumberAirport: Future[List[Countries]] = Future({
+  def maxNumberAirport: Future[List[Countries]] = Future({
     val airportsGroup = getAirportsFile.groupBy(x => x.iso_country)
 
     //do not sort here
@@ -119,49 +104,8 @@ case class RunWaysPerCountry(iso_country: String, surface: Set[String])
     ret.toList.sortWith(_.count.getOrElse(0) > _.count.getOrElse(0))
   })
 
-  /*
-  val maxNumberAirport: Future[List[Countries]] = Future({
-    val futureMap = getAirportsData.map(list => list.groupBy(x => x.iso_country))
-    val map: Map[String, List[Airport]] = Await.result(futureMap, 100 seconds)
 
-    //do not sort here
-    val sorted: ListMap[String, Int] = ListMap(map.toSeq.sortBy(_._2.size):_*).map(x => (x._1,x._2.size)) //ListMap(map.toSeq.sortBy(_._2.size):_*).map(x => (x._1,x._2.size))//.map((code,list) => (code,list))
-
-    val countries: List[Countries] = Await.result(getCountriesData, 100 seconds)
-
-    val countr: ListMap[List[Countries], Int] = sorted.map(x => (countries.filter(country => x._1 ==country.code),x._2))
-
-    val ret = countr.flatMap(x => x._1.map(country => Countries(country.id, country.code, country.name, country.continent,Some(x._2))))
-
-    //println("maxNumberAirport ...." +ret.toList.sortWith(_.count.getOrElse(0) > _.count.getOrElse(0)))
-
-    ret.toList.sortWith(_.count.getOrElse(0) > _.count.getOrElse(0))
-    })
-*/
-
-
-  /*
-  val typeOfRunways: Future[List[RunWaysPerCountry]] = Future({
-
-    val futureAir: Future[Map[(String), List[Airport]]] = getAirportsData.map(list => list.groupBy(x => (x.iso_country)))
-
-    val run = Await.result(getRunwaysData, 100 seconds)
-
-    val airport: Map[String, List[Airport]] = Await.result(futureAir, 100 seconds)
-
-    val runways = Await.result(getRunwaysData, 100 seconds)
-
-    val ret: List[RunWaysPerCountry] = airport.map(tupl => RunWaysPerCountry(
-      tupl._1,
-      tupl._2.flatMap(air => runways.filter(run => run.airport_ref==air.id)).map(runways => runways.surface).toSet
-    )
-    ).toList
-
-    ret
-  })
-  */
-
-  val typeOfRunways: Future[List[RunWaysPerCountry]] = Future({
+  def typeOfRunways: Future[List[RunWaysPerCountry]] = Future({
 
     val airportMap: Map[(String), List[Airport]] = getAirportsFile.groupBy(x => (x.iso_country))
 
@@ -196,19 +140,18 @@ case class RunWaysPerCountry(iso_country: String, surface: Set[String])
 })
 
 
-  val getAirportsWithCountryName= Future({
+  def getAirportsWithCountryName: Future[List[AirportWithCountryName]] = Future({
 
     val countries = getCountriesFile
 
     val airports = getAirportsFile
 
-    val xx = airports.map { air =>
-      AirportWithCountryName(air.id, air.ident, air.type_, air.name, countries.filter(country => air.iso_country == country.code).headOption.getOrElse(Countries("", "", "", "", None)).name)
+    val res = airports.map { air =>
+      AirportWithCountryName(air.id, air.ident, air.type_, air.name, countries.filter(country => air.iso_country == country.code).headOption.getOrElse(Countries("", "", "", "", None)).name,air.iso_country)
     }
 
-    //println("getAirportsWithCountryName " + xx.size)
-
-    xx
+    res
   })
+
 
 }
