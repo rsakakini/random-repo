@@ -17,7 +17,7 @@ import scala.collection.immutable.{Seq, Iterable, ListMap}
 
 
 @Singleton
-class FileLoader @Inject()(protected val config: Configuration) {
+class FileLoaderService @Inject()(protected val config: Configuration) {
 
   val logger = Logger(this.getClass())
   logger.info("Airports Starting.........")
@@ -74,7 +74,7 @@ class FileLoader @Inject()(protected val config: Configuration) {
 
     runwaysBufferedSource.close
 
-    runwaysIt
+    runwaysIt.filter(most => most.airport_ident!="airport_ident")
   }
 
   def getAirportsData: Future[List[Airport]] = Future({
@@ -89,7 +89,9 @@ class FileLoader @Inject()(protected val config: Configuration) {
     getRunwaysFile
   })
 
-  def maxNumberAirport: Future[List[Countries]] = Future({
+  val maxNumberAirport: Future[List[Countries]] = Future({
+    logger.info("maxNumberAirport.....")
+
     val airportsGroup = getAirportsFile.groupBy(x => x.iso_country)
 
     //do not sort here
@@ -105,8 +107,8 @@ class FileLoader @Inject()(protected val config: Configuration) {
   })
 
 
-  def typeOfRunways: Future[List[RunWaysPerCountry]] = Future({
-
+  val typeOfRunways: Future[List[RunWaysPerCountry]] = Future({
+    logger.info("typeOfRunways.....")
     val airportMap: Map[(String), List[Airport]] = getAirportsFile.groupBy(x => (x.iso_country))
 
     val run = getRunwaysFile
@@ -125,7 +127,7 @@ class FileLoader @Inject()(protected val config: Configuration) {
 
 
   def search(what : String)= Future({
-
+    logger.info("search.....")
     val filterCountries: List[Countries] = getCountriesFile.filter(a => (a.name==what || a.code==what))
 
     val airport = getAirportsFile
@@ -140,8 +142,8 @@ class FileLoader @Inject()(protected val config: Configuration) {
 })
 
 
-  def getAirportsWithCountryName: Future[List[AirportWithCountryName]] = Future({
-
+  val getAirportsWithCountryName: Future[List[AirportWithCountryName]] = Future({
+    logger.info("getAirportsWithCountryName.....")
     val countries = getCountriesFile
 
     val airports = getAirportsFile
@@ -152,6 +154,17 @@ class FileLoader @Inject()(protected val config: Configuration) {
 
     res
   })
+
+
+  def mostCommonRunWays = Future({
+    logger.info("mostCommonRunWays.....")
+    val runWays =getRunwaysFile
+
+    val res = runWays.distinct.map(x => (MostCommonRunWays(x.le_ident.getOrElse("N/A"),runWays.count(_.le_ident == x.le_ident)))).sortBy(m => m.name)
+
+    res
+  })
+
 
 
 }

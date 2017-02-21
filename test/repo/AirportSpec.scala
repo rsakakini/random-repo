@@ -4,7 +4,7 @@ import org.specs2.execute.{AsResult, Results}
 import play.api.{Application, Configuration}
 import play.api.test.{PlaySpecification, WithApplication}
 import play.mvc.Result
-import services.FileLoader
+import services.FileLoaderService
 import org.scalatestplus.play.PlaySpec
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
@@ -15,7 +15,7 @@ class AirportSpec extends PlaySpec {
   import models._
   //override def described(s: String): Described = super.described(s)
 
-  def fileLoader(implicit app: Application): FileLoader = Application.instanceCache[FileLoader].apply(app)
+  def fileLoader(implicit app: Application): FileLoaderService = Application.instanceCache[FileLoaderService].apply(app)
 
   "FileLoader " should  {
 
@@ -52,6 +52,15 @@ class AirportSpec extends PlaySpec {
     result.head.id === 313663
 
 }
+
+    "get most common runways" in new WithApplication() {
+      val result = await(fileLoader.mostCommonRunWays)
+      //result.length === 39536
+      result.head.name === "ZZZ"
+      result.head.number === 1
+
+    }
+
 
 def await[T](v: Future[T]): T = Await.result(v, Duration.Inf)
 

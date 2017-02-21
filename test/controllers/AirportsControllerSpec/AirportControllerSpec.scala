@@ -5,13 +5,13 @@ import models.Airport
 import org.specs2.execute.Results
 import org.specs2.mock.Mockito
 import play.api.test.{FakeRequest, PlaySpecification}
-import services.FileLoader
+import services.FileLoaderService
 
 import scala.concurrent.Future
 
 class AirportControllerSpec  extends PlaySpecification with Mockito with Results {
 
-  val mockedRepo = mock[FileLoader]
+  val mockedRepo = mock[FileLoaderService]
   val mockedWebJarAssets = mock[WebJarAssets]
   val airportController= new AirportController(mockedRepo,mockedWebJarAssets)
 

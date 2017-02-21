@@ -14,9 +14,11 @@ GET     /airport/query/typeRunways          controllers.AirportController.typeOf
 
 GET     /airport/query/queries              controllers.AirportController.queries
 
-GET     /airport/query/queries/runways      controllers.AirportController.runwaysquery
+GET     /airport/query/mostCommonRunWays    controllers.AirportController.mostCommonRunWaysQuery
 
-GET     /airport/query/queries/countries    controllers.AirportController.countriesquery
+GET     /airport/query/queries/runways      controllers.AirportController.runwaysQuery
+
+GET     /airport/query/queries/countries    controllers.AirportController.countriesQuery
 
 GET     /airport/query/search               controllers.AirportController.search
 

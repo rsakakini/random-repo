@@ -11,3 +11,5 @@ case class Countries(id: String, code: String, name : String, continent: String,
 case class AirportAndRunWays(name: String, surface: Set[String])
 
 case class RunWaysPerCountry(iso_country: String, surface: Set[String])
+
+case class MostCommonRunWays(name: String, number: Int)

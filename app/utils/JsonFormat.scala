@@ -17,6 +17,10 @@ object JsonFormat {
 
   implicit val airportWithCountryNameFormat = Json.format[AirportWithCountryName]
 
+  implicit val mostCommonRunWays = Json.format[MostCommonRunWays]
+
+
+
 
 }
 

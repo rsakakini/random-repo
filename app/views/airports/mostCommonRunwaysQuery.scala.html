@@ -1,0 +1,22 @@
+<h3>Most Common Runways</h3>
+<table class="table table-hover">
+    <thead>
+    <th>Name</th>
+    <th>Number</th>
+
+    </thead>
+    <tbody>
+    <tr dir-paginate="air in mostCommonRunWays | itemsPerPage:10" pagination-id="mostCommonRunWays">
+    <!-- tr ng-repeat="air in countries" -->
+        <td>{{air.name}}</td>
+        <td>{{air.number}}</td>
+    </tr>
+    </tbody>
+
+</table>
+<dir-pagination-controls pagination-id="mostCommonRunWays"
+                         max-size="10"
+                         direction-links="true"
+                         boundary-links="true" >
+</dir-pagination-controls>
+
